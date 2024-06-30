@@ -17,8 +17,7 @@ namespace VydavatelstvoRestApi.Model
 
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Autor)
-                .WithMany(a => a.Books)
-                .HasForeignKey(b => b.AutorId);
+                .WithMany(a => a.Books);
         }
     }
 }
