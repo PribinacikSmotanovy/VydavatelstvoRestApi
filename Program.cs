@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using VydavatelstvoRestApi.Model;
 
 namespace VydavatelstvoRestApi
@@ -16,6 +17,10 @@ namespace VydavatelstvoRestApi
 
             builder.Services.AddDbContext<Context>(
                 options => options.UseMySQL("server=localhost;database=vydavatelstvo;user=vUser;password=vPassword"));
+
+            //builder.Services.AddControllers()
+            //    .AddJsonOptions(options =>
+            //        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

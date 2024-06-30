@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VydavatelstvoRestApi.Model;
 
@@ -29,9 +24,21 @@ namespace VydavatelstvoRestApi.Controllers
 
         // GET: api/Autors
         [HttpGet("/Details")]
-        public async Task<ActionResult<IEnumerable<Autor>>> GetAutorsDetails()
+        public IEnumerable<AutorDTO> GetAutorsWithBooks()
         {
-            return await _context.Autors.Include(a => a.Books).ToListAsync();
+            return this._context.Autors
+                                .Include(a => a.Books)
+                                .ToList()
+                                .Select(autor => new AutorDTO // i can avoid circular references by using DTO
+                                {
+                                    AutorId = autor.AutorId,
+                                    Name = autor.Name,
+                                    Books = autor.Books?.Select(book => new BookDTO // nested DTO
+                                    {
+                                        BookId = book.BookId,
+                                        Title = book.Title,
+                                    }),
+                                });
         }
 
         // GET: api/Autors/5
